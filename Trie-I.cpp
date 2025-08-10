@@ -4,6 +4,13 @@ using namespace std;
 typedef struct Node {
     Node* links[26];
     bool end;
+    Node() : end(false){
+        for(int i = 0; i<26; i++)
+            links[i] = nullptr;
+    }
+    bool contains(char x){
+        return links[x - 'a'];
+    }
     Node* put(char x) {
         return links[x - 'a'] = new Node();
     }
@@ -15,7 +22,6 @@ typedef struct Node {
     }
     void set_end() {
         end = 1;
-        return;
     }
 } node;
 
@@ -27,22 +33,26 @@ struct Trie{
     void insert(string s) {
         node* temp = root;
         for(auto &x : s)
-            temp = temp->put(x);
+            temp = temp->contains(x) ? temp->get(x) : temp->put(x);
         temp->set_end();
     }
     bool search(string s) {
         node* temp = root;
         for(auto &x : s){
-            temp = temp->get(x);
-            if(!temp) return false;
+            if(temp->contains(x))  
+                temp = temp->get(x);
+            else    
+                return false;
         }
         return temp->get_end();
     }
     bool starts_with(string s) {
         node* temp = root;
         for(auto &x : s){
-            temp = temp->get(x);
-            if(!temp) return false;
+            if(temp->contains(x))
+                temp = temp->get(x);
+            else 
+                return false;
         }
         return true;
     }
