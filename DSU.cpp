@@ -17,8 +17,8 @@ struct dsu{
             int pv = find_parent(v);
             if(pu == pv) return;
             if(rank[pu] < rank[pv])
-                swap(u, v);
-            parent[v] = u;
+                swap(pu, pv);
+            parent[pv] = pu;
             if(rank[pu] == rank[pv])
                 rank[pu]++;
         }
