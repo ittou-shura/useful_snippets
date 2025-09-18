@@ -15,6 +15,7 @@ struct dsu{
         void merge(int u, int v) {
             int pu = find_parent(u);
             int pv = find_parent(v);
+            if(pu == pv) return;
             if(rank[pu] < rank[pv])
                 swap(u, v);
             parent[v] = u;
